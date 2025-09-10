@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <!-- Meta refresh as a fallback -->
+  <meta http-equiv="refresh" content="3;url=https://red.typicalcolors.com" />
+  <title>Redirecting…</title>
+  <style>
+    :root{
+      --bg1: #0f5132;
+      --bg2: #1fa65a;
+      --card: rgba(255,255,255,0.06);
+      --accent: rgba(255,255,255,0.12);
+      --glass: rgba(255,255,255,0.04);
+    }
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(135deg,var(--bg1) 0%, #0b3e2a 35%, var(--bg2) 100%);
+      color: #eaffea;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    .wrap{
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+
+    .card{
+      width:100%;
+      max-width:880px;
+      text-align:center;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border-radius:16px;
+      padding:48px 32px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35), inset 0 1px 0 var(--accent);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    h1{
+      margin:0 0 8px 0;
+      font-size: clamp(20px, 3.6vw, 40px);
+      letter-spacing: -0.01em;
+      line-height:1.05;
+      font-weight:700;
+      color: #f7fff8;
+      text-shadow: 0 2px 18px rgba(0,0,0,0.45);
+    }
+
+    .sub{
+      margin:0 0 20px 0;
+      opacity:0.9;
+      font-size: clamp(14px,1.8vw,18px);
+    }
+
+    .redirect-text{
+      display:inline-block;
+      padding:12px 18px;
+      border-radius:999px;
+      background: linear-gradient(90deg, rgba(0,0,0,0.12), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.03);
+      font-weight:600;
+      letter-spacing:0.01em;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    }
+
+    .count{
+      display:block;
+      margin-top:14px;
+      font-size:14px;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .small{
+      margin-top:18px;
+      font-size:13px;
+      opacity:0.8;
+    }
+
+    /* subtle pulse indicator */
+    .dot {
+      display:inline-block;
+      width:10px;
+      height:10px;
+      margin-left:10px;
+      border-radius:50%;
+      background: rgba(255,255,255,0.18);
+      animation: pulse 1.5s infinite;
+      vertical-align:middle;
+      box-shadow: 0 0 12px rgba(0,0,0,0.4);
+    }
+    @keyframes pulse{
+      0% { transform: scale(1); opacity:1; }
+      50% { transform: scale(1.45); opacity:0.45; }
+      100% { transform: scale(1); opacity:1; }
+    }
+
+    /* small responsive tweak */
+    @media (max-width:420px){
+      .card{ padding:28px 18px; border-radius:12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap" role="main" aria-live="polite">
+    <div class="card" role="region" aria-label="Redirect notice">
+      <h1>rediectign to red.typicalcolors.com <span class="dot" aria-hidden="true"></span></h1>
+      <p class="sub">You will be taken there automatically in <strong id="secs">3</strong> seconds.</p>
+
+      <div class="redirect-text" aria-hidden="true">
+        rediectign to <code>red.typicalcolors.com</code>
+      </div>
+
+      <p class="count" id="count">Redirecting in 3…</p>
+      <p class="small">If the redirect doesn't work, <a href="https://red.typicalcolors.com" style="color:#e6fff0; text-decoration:underline;">click here to continue</a>.</p>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      // Countdown and redirect (primary JS redirect)
+      var seconds = 3;
+      var secsEl = document.getElementById('secs');
+      var countEl = document.getElementById('count');
+
+      function update(){
+        secsEl.textContent = seconds;
+        countEl.textContent = 'Redirecting in ' + seconds + '…';
+      }
+      update();
+
+      var tick = setInterval(function(){
+        seconds = seconds - 1;
+        if (seconds <= 0) {
+          clearInterval(tick);
+          // final update for 0
+          secsEl.textContent = 0;
+          countEl.textContent = 'Redirecting now…';
+          // perform redirect
+          window.location.href = 'https://red.typicalcolors.com';
+        } else {
+          update();
+        }
+      }, 1000);
+
+      // Safety: if something prevents JS redirect, the meta refresh will still handle it.
+    })();
+  </script>
+</body>
+</html>
